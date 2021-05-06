@@ -1,1 +1,19 @@
 //
+.authForm{
+    position:absolute;
+    display:inline-block;
+    margin:auto;
+    padding: 10px;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:linear-gradient(red,darkred);
+    width:max-content;
+    height: max-content;
+    color:white;
+}
+.center{
+    width:100%;
+    text-align: center;
+}
