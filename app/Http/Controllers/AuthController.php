@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         if(Auth::attempt(['login'=>$rec->login,'password'=> $rec->password])){
             $user = Auth::user();
-            $redirectURL=['/user','/manager'];
+            $redirectURL=[route('user'),route('mamager')];
             return response()->json([
                 'state' => 'logok',
                 'url' => $redirectURL[$user->role]
@@ -82,7 +82,7 @@ class AuthController extends Controller
             Auth::login($user);
             return response()->json([
                 'state' => 'regok',
-                'url' => '/user'
+                'url' => route('user')
               ]);
         }
 
@@ -92,6 +92,10 @@ class AuthController extends Controller
           ]);
 
 
+    }
+    public function LogOut(){
+        Auth::logout();
+        return redirect(route('main'));
     }
 
 }

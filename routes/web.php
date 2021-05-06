@@ -18,6 +18,10 @@ Route::get('/user', "UserWorkController@MainPage")->name("user");
 Route::post('/addmsg', "UserWorkController@AddMsg")->name("addmsg");
 
 Route::get('/manager', "ManagerWorkController@MainPage")->name("manager");
+Route::post('/readed', "ManagerWorkController@Readed")->name("readed");
 
 Route::post('/login', "AuthController@login")->name("login");
 Route::post('/reg', "AuthController@Reg")->name("reg");
+
+
+Route::get('/logout', "AuthController@LogOut")->name("logout");

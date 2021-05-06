@@ -19,6 +19,12 @@ class UserWorkController extends Controller
 
         $cw=true;
         $user=Auth::user();
+
+        if($user->role==1){
+            return redirect(route('manager'));
+        }
+
+
         $dLastSend=strtotime($user->lastSend);
         $now=strtotime("+0");
         if($dLastSend>$now){

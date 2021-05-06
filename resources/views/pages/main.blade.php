@@ -19,7 +19,7 @@
         </span>
     </form>
 
-    <form class="RegForm" style="display:none">
+    <form class="RegForm" style="display:block">
         <h4 class="center">Регистрация</h4>
         <span>Введите логин</span><br>
         <input type="text" name="login" id="rlogin"><br>

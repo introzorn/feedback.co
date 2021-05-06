@@ -28,6 +28,6 @@ class iMail extends Mailable
      */
     public function build()
     {
-        return $this->view('blocks.mail')->with("maildata",$this->msgdata);
+        return $this->view('blocks.mail')->subject("Сообщение по обратной связи от ".$this->msgdata->email)->with("maildata",$this->msgdata);
     }
 }

@@ -1,5 +1,5 @@
 @extends('html')
-@section('mtitle')Обратная связь - Авторизуйтесь@endsection
+@section('mtitle')Обратная связь - Написать Сообщение@endsection
 
 @section('content')
 
@@ -59,7 +59,7 @@ function postMSG(){
             $('#msgform').css("display","none");
             $('#msgOk').css("display","block").html(`
 
-            Ваше сообщение: "`+$("#msg").val()+`" успешно отправленно.<br>
+            Ваше сообщение: "`+$("#title").val()+`" успешно отправленно.<br>
              Ожидайте ответного сообщения на вашу электронную почту
 
             `);
