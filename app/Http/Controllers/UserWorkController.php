@@ -1,20 +1,35 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Msges;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Jobs\MailJOB;
+
 class UserWorkController extends Controller
 {
     public function MainPage(){
+
 
         if(!Auth::check()){
             return redirect(route('main'));
         }
 
-        return view("pages.user");
+        $cw=true;
+        $user=Auth::user();
+        $dLastSend=strtotime($user->lastSend);
+        $now=strtotime("+0");
+        if($dLastSend>$now){
+           $cw=false;
+        }
+
+
+        return view("pages.user")->with(['canWrite'=>$cw]);
     }
+
+
 
     public function AddMsg(Request $rec){
 
@@ -61,10 +76,34 @@ class UserWorkController extends Controller
             $f=$rec->file('file');
             $f->move('uploads',$user->login.'_'.$f->getClientOriginalName());
             $file=$user->login.'_'.$f->getClientOriginalName();
-               die($f->getClientOriginalName());
+
         }
 
         // тут  добавляем в бд
+        $objmsg= new Msges();
+        $objmsg->title=$rec->title;
+        $objmsg->msg=$rec->msg;
+        $objmsg->file=$file;
+        $objmsg->user=$user->login;
+        $objmsg->save();
+
+
+
+        $nuser = User::find($user->id);
+        $nuser->lastSend=strval(date("Y-m-d H:i:s",strtotime("+1 day")));
+        $nuser->save();
+
+        $objmsg->email=$nuser->email;
+
+
+        //ну и тут отправляем почту через очередь
+        dispatch(new MailJOB($objmsg));
+
+        return response()->json([
+            'state' => 'msgok',
+          ]);
+
+
 
     }
 

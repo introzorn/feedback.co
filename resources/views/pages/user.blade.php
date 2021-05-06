@@ -14,11 +14,25 @@
 
         прикрепить файл:<input type="file" name="file" id="file"><br>
         <center><br>
-        <input type="button" value="Отправить" onclick="postMSG()">
+
+
+
+@if ($canWrite)
+     <input type="button" value="Отправить" onclick="postMSG()">
+
+@else
+    <span>Вы не можете больше отправлять сообщения сегодня. <br> приходите завтра</span>
+
+@endif
+
+
+
+
 
         </center>
         <span id="msgerror" style="display:none"></span>
     </form>
+    <div id="msgOk" style="display:block"></div>
 </div>
 
 <script>
