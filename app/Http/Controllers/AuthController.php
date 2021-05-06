@@ -33,7 +33,7 @@ class AuthController extends Controller
 
         if(Auth::attempt(['login'=>$rec->login,'password'=> $rec->password])){
             $user = Auth::user();
-            $redirectURL=[route('user'),route('mamager')];
+            $redirectURL=[route('user'),route('manager')];
             return response()->json([
                 'state' => 'logok',
                 'url' => $redirectURL[$user->role]

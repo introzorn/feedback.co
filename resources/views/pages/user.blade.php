@@ -45,7 +45,7 @@ function postMSG(){
     data=new FormData;
     data.append('title',title);
     data.append('msg',msg);
-    data.append('file', file);
+    data.append('ufile', file);
     head={'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
 
     aPost("{{route('addmsg')}}",data,head,function(data){

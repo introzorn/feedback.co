@@ -78,8 +78,11 @@ class UserWorkController extends Controller
         }
 
         $file="";
-        if($rec->hasFile('file')){
-            $f=$rec->file('file');
+
+        if($rec->file('ufile')){
+
+            $f=$rec->file('ufile');
+
             $f->move('uploads',$user->login.'_'.$f->getClientOriginalName());
             $file=$user->login.'_'.$f->getClientOriginalName();
 
@@ -105,9 +108,9 @@ class UserWorkController extends Controller
         //ну и тут отправляем почту через очередь
         dispatch(new MailJOB($objmsg));
 
-        return response()->json([
+       return response()->json([
             'state' => 'msgok',
-          ]);
+         ]);
 
 
 

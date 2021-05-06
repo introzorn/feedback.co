@@ -13,6 +13,10 @@
         <hr>
         {{ $item->msg}}
         <hr>
+        @if ($item->file)
+           прикрепленный файл : <a href="/public/uploads/{{$item->file}}">{{$item->file}}</a>
+        <hr>
+        @endif
         <span>
         @if ($item->readed==0)
             <div style="color:green" mid="{{ $item->id }}" onclick="ReadThis(this)">[ Отметить как прочитаное ]</div>
@@ -92,7 +96,7 @@ function AjaxPanginate(el){
         apang=data.split('<!--panginator-->');
         $('#contentblock').html(arcont[1]);
         $('#panginator').html(apang[1]);
-
+        $(".page-link").click(function(){AjaxPanginate(this);return false;})
     });
 
 
