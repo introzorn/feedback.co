@@ -18,7 +18,18 @@ class ManagerWorkController extends Controller
             return redirect(route('user'));
         }
 
-        $rows=Msges::orderBy('id', 'desc')->paginate(2);
+       // $rows=Msges::leftjoin('Users', 'Msges.user', '=', 'Users.login')->orderBy('id', 'desc')->paginate(10);
+$rows=Msges::leftjoin('Users', 'Msges.user', '=', 'Users.login')->select([
+    'Msges.id as id',
+    'Msges.user as user',
+    'Users.email as email',
+    'Msges.title as title',
+    'Msges.msg as msg',
+    'Msges.file as file',
+    'Msges.readed as readed',
+    'Msges.created_at as created_at',
+])->orderBy('id', 'desc')->paginate(10);
+
 
 
         return view("pages.manager")->with('MSGS', $rows);

@@ -9,7 +9,8 @@
 @foreach ($MSGS as $item)
 
     <div class="vkladka_{{$item->readed}}" style="">
-        <h3>{{ $item->user }} : {{ $item->title }} </h3>
+        <h3>ID-{{ $item->id }} : {{ $item->user }} : {{ $item->email }} </h3>
+        <h3>{{ $item->title }} </h3>
         <hr>
         {{ $item->msg}}
         <hr>
