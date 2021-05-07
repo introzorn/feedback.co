@@ -3,22 +3,22 @@
 
 @section('content')
 
-
-<div class="authForm">
+<center>
+<div class="pagepage">
     <form id="msgform">
         <h3>Написать менеджеру</h3><br>
-        Тема сообщения: <input type="text" name="title" id="title"><br>
+        Тема сообщения: <input  class="form-control"  type="text" name="title" id="title">
         Tекст сообщения:<br>
-        <textarea name="msg" id="msg" cols="30" rows="10" style="width:500px; height:200px"></textarea><br>
+        <textarea name="msg"   class="form-control"  id="msg"  style=" height:200px"></textarea>
 
 
-        прикрепить файл:<input type="file" name="file" id="file"><br>
+        прикрепить файл:<input  class="form-control"  type="file" name="file" id="file">
         <center><br>
 
 
 
 @if ($canWrite)
-     <input type="button" value="Отправить" onclick="postMSG()">
+     <input type="button" value="Отправить" class="form-control" onclick="postMSG()">
 
 @else
     <span>Вы не можете больше отправлять сообщения сегодня. <br> приходите завтра</span>
@@ -30,11 +30,11 @@
 
 
         </center>
-        <span id="msgerror" style="display:none"></span>
+        <span id="msgerror" style="color:red">&nbsp;</span>
     </form>
     <div id="msgOk" style="display:block"></div>
 </div>
-
+</center>
 <script>
 
 function postMSG(){

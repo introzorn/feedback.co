@@ -3,46 +3,52 @@
 
 @section('content')
 
-<div class="authForm">
-    <form class="loginForm" style="display:block">
+<div class="authForm" >
+    <div >
+        <span name="" id="" onclick="showpg(1)" class="logbtn btn btn-primary" href="#" role="button">Войти</span>
+        <span name="" id=""  onclick="showpg(2)" class="logbtn btn btn-primary" href="#" role="button">Зарегистрироваться</span>
+    <form class="loginForm formbox" id="logForm" style="display:block">
         <h4 class="center">Авторизация</h4>
         <span>Введите логин</span><br>
-        <input type="text" name="login" id="login"><br>
+        <input type="text"  class="form-control"  name="login" id="login">
         <span>Введите пароль</span><br>
-        <input type="password" name="password" id="password"><br><br>
+        <input type="password"  class="form-control"  name="password" id="password"><br>
         <span class="center">
-            <center><input type="button" onclick="Login()" value="Авторизоваться"></center>
+            <center><input type="button" style="font-size:12pt" onclick="Login()" value="Авторизоваться"></center>
 
         </span>
 
-       <span class="" style="background-color:white; color:red; display:none" id="logerror">
+       <span class="" style="background-color:white; color:red;" id="logerror">&nbsp;
         </span>
     </form>
 
-    <form class="RegForm" style="display:block">
+    <form class="RegForm formbox" id="RegForm" style="display:none">
         <h4 class="center">Регистрация</h4>
         <span>Введите логин</span><br>
-        <input type="text" name="login" id="rlogin"><br>
+
+
+        <input type="text"  class="form-control"  name="login" id="rlogin">
         <span>Введите Электронную почту</span><br>
-        <input type="text" name="mail" id="mail"><br>
+        <input type="text"  class="form-control"  name="mail" id="mail">
         <span>Введите пароль</span><br>
-        <input type="password" name="password1" id="password1"><br>
+        <input type="password" class="form-control"  name="password1" id="password1">
         <span>Введите пароль еще раз</span><br>
-        <input type="password" name="password2" id="password2"><br>
+        <input type="password" class="form-control"  name="password2" id="password2">
         <br>
 
 
         <span class="center">
-            <center><input type="button" onclick="Regist()" value="Зарегистрироваться"></center>
+            <center><input type="button"  style="font-size:12pt" onclick="Regist()" value="Зарегистрироваться"></center>
 
         </span>
-        <span class="" style="background-color:white; color:red; display:none" id="regerror">
+        <span class="" style="background-color:white; color:red; " id="regerror">&nbsp;
         </span>
 
     </form>
 
-
+    </div>
 </div>
+<div style=" height:500px"></div>
 <script>
 function Login(){
     login=encodeURI($("#login").val());
@@ -89,6 +95,18 @@ function aPost(href,datas,header,callback){
 	 success: callback
 	 });
  }
+
+function showpg(pg){
+    if(pg==1){
+        $('#logForm').css('display', 'block');
+        $('#RegForm').css('display', 'none');
+        }else{
+        $('#logForm').css('display', 'none');
+        $('#RegForm').css({'display': 'block'});
+
+
+    }
+}
 
 
 </script>

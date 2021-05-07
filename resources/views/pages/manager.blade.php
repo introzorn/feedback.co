@@ -4,13 +4,16 @@
 @section('content')
 
 <div id="contentblock">
-<!--contentblock-->
 
+<!--contentblock-->
+ <center>
+<h5 style="color:white">Сообщения пользователей</h5>
+  <br>
 @foreach ($MSGS as $item)
 
-    <div class="vkladka_{{$item->readed}}" style="">
-        <h3>ID-{{ $item->id }} : {{ $item->user }} : {{ $item->email }} </h3>
-        <h3>{{ $item->title }} </h3>
+    <div class="vkladka_{{$item->readed}}" id="vkl_{{ $item->id }}" style="">
+        <h6>ID-{{ $item->id }} : {{ $item->user }} : {{ $item->email }} </h6>
+        <h5>Тема :{{ $item->title }} </h5>
         <hr>
         {{ $item->msg}}
         <hr>
@@ -20,11 +23,12 @@
         @endif
         <span>
         @if ($item->readed==0)
-            <div style="color:green" mid="{{ $item->id }}" onclick="ReadThis(this)">[ Отметить как прочитаное ]</div>
+            <div class="btnread" mid="{{ $item->id }}" onclick="ReadThis(this)">[ Отметить как прочитаное ]</div>
         @else
-            <div style="color:grey" >[ Прочитанное ]</div>
+            <div class="btnreaded" >[ Прочитанное ]</div>
         @endif
-    </span>
+         </span>
+          Дата сообщения: {{date("d.m.y H:i:s", strtotime( $item->created_at))}}
     </div>
 
 
@@ -33,8 +37,9 @@
 @endforeach
 
 
-
+</center>
 <!--contentblock-->
+
 </div>
 <div id="panginator">
 <!--panginator-->
@@ -49,14 +54,15 @@
 function ReadThis(el){
 
     id=$(el).attr('mid');
+    $(el).parent().html('<div class="btnreaded" mid="'+id+'" ><img src="/public/img/ajax-loader.gif"> загрузка...</div>');
     data=new FormData;
     data.append('id', id);
     head={'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')}
     aPost("{{route('readed')}}",data,head,function(data){
         if(data.state=='readok'){
 
-            $('[mid='+data.id+']').parent().html('<div style="color:grey" >[ Прочитанное ]</div>');
-
+            $('[mid='+data.id+']').parent().html('<div class="btnreaded" >[ Прочитанное ]</div>');
+            $('#vkl_'+data.id+'').removeClass().addClass('vkladka_1');
         }
     });
 
@@ -89,7 +95,7 @@ function aPost(href,datas,header,callback){
   }
 
 function AjaxPanginate(el){
-
+    $("#contentblock").css('opacity',0);
     href=$(el).attr('href');
     d='';
     aGet(href,function(data){
@@ -98,6 +104,7 @@ function AjaxPanginate(el){
         $('#contentblock').html(arcont[1]);
         $('#panginator').html(apang[1]);
         $(".page-link").click(function(){AjaxPanginate(this);return false;})
+        $("#contentblock").css('opacity',1);
     });
 
 
