@@ -63,6 +63,7 @@ function postMSG(){
              Ожидайте ответного сообщения на вашу электронную почту
 
             `);
+            $('.pagepage')css('margin-bottom','300px')
             return;
         }
         if(data.state=='msgerror'){
