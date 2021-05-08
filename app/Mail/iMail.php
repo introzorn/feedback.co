@@ -10,7 +10,7 @@ use Illuminate\Queue\SerializesModels;
 class iMail extends Mailable
 {
     use Queueable, SerializesModels;
-    public $msgdata ;
+    public $msgdata;
     /**
      * Create a new message instance.
      *
@@ -18,7 +18,7 @@ class iMail extends Mailable
      */
     public function __construct($msgdata)
     {
-        $this->msgdata=$msgdata;
+        $this->msgdata = $msgdata;
     }
 
     /**
@@ -28,6 +28,6 @@ class iMail extends Mailable
      */
     public function build()
     {
-        return $this->view('blocks.mail')->subject("Сообщение по обратной связи от ".$this->msgdata->email)->with("maildata",$this->msgdata);
+        return $this->view('blocks.mail')->subject("Сообщение по обратной связи от " . $this->msgdata->email)->with("maildata", $this->msgdata);
     }
 }

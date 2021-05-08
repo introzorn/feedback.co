@@ -25,7 +25,7 @@ class MailJOB implements ShouldQueue
      */
     public function __construct($msgdata)
     {
-       $this->msgdata=$msgdata;
+        $this->msgdata = $msgdata;
     }
 
     /**
@@ -38,12 +38,9 @@ class MailJOB implements ShouldQueue
 
         $email = new iMail($this->msgdata);
 
-        $managers=User::where("role","=",1);
+        $managers = User::where("role", "=", 1);
         foreach ($managers as $man) {
             Mail::to($man->email)->send($email);
         }
-
-
-
     }
 }

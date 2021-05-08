@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Msges;
 use App\User;
 use Illuminate\Http\Request;
@@ -10,52 +11,53 @@ use App\Jobs\MailJOB;
 
 class UserWorkController extends Controller
 {
-    public function MainPage(){
+    public function MainPage()
+    {
 
 
-        if(!Auth::check()){
+        if (!Auth::check()) {
             return redirect(route('main'));
         }
 
-        $cw=true;
-        $user=Auth::user();
+        $cw = true;
+        $user = Auth::user();
 
-        if($user->role==1){
+        if ($user->role == 1) {
             return redirect(route('manager'));
         }
 
 
-        $dLastSend=strtotime($user->lastSend);
-        $now=strtotime("+0");
-        if($dLastSend>$now){
-           $cw=false;
+        $dLastSend = strtotime($user->lastSend);
+        $now = strtotime("+0");
+        if ($dLastSend > $now) {
+            $cw = false;
         }
 
 
-        return view("pages.user")->with(['canWrite'=>$cw]);
+        return view("pages.user")->with(['canWrite' => $cw]);
     }
 
 
 
-    public function AddMsg(Request $rec){
+    public function AddMsg(Request $rec)
+    {
 
-        if(!Auth::check()){
+        if (!Auth::check()) {
 
-                return response()->json([
-                    'state' => 'redirect',
-                    'url' => route('main')
-                  ]);
-
+            return response()->json([
+                'state' => 'redirect',
+                'url' => route('main')
+            ]);
         }
 
-        $user=Auth::user();
-        $dLastSend=strtotime($user->lastSend);
-        $now=strtotime("+0");
-        if($dLastSend>$now){
+        $user = Auth::user();
+        $dLastSend = strtotime($user->lastSend);
+        $now = strtotime("+0");
+        if ($dLastSend > $now) {
             return response()->json([
                 'state' => 'redirect',
                 'url' => route('user')
-              ]);
+            ]);
         }
 
         $msgs = array(
@@ -67,54 +69,47 @@ class UserWorkController extends Controller
         $valid = Validator::make($rec->all(), [
             'title' => 'required|max:255',
             'msg' => 'required',
-        ],$msgs);
+        ], $msgs);
 
         if ($valid->fails()) {
             return response()->json([
                 'state' => 'msgerror',
                 'errors' => $valid->errors()->first()
-              ]);
-
+            ]);
         }
 
-        $file="";
+        $file = "";
 
-        if($rec->file('ufile')){
+        if ($rec->file('ufile')) {
 
-            $f=$rec->file('ufile');
+            $f = $rec->file('ufile');
 
-            $f->move('uploads',$user->login.'_'.$f->getClientOriginalName());
-            $file=$user->login.'_'.$f->getClientOriginalName();
-
+            $f->move('uploads', $user->login . '_' . $f->getClientOriginalName());
+            $file = $user->login . '_' . $f->getClientOriginalName();
         }
 
         // тут  добавляем в бд
-        $objmsg= new Msges();
-        $objmsg->title=$rec->title;
-        $objmsg->msg=$rec->msg;
-        $objmsg->file=$file;
-        $objmsg->user=$user->login;
+        $objmsg = new Msges();
+        $objmsg->title = $rec->title;
+        $objmsg->msg = $rec->msg;
+        $objmsg->file = $file;
+        $objmsg->user = $user->login;
         $objmsg->save();
 
 
 
         $nuser = User::find($user->id);
-        $nuser->lastSend=strval(date("Y-m-d H:i:s",strtotime("+1 day")));
+        $nuser->lastSend = strval(date("Y-m-d H:i:s", strtotime("+1 day")));
         $nuser->save();
 
-        $objmsg->email=$nuser->email;
+        $objmsg->email = $nuser->email;
 
 
         //ну и тут отправляем почту через очередь
         dispatch(new MailJOB($objmsg));
 
-       return response()->json([
+        return response()->json([
             'state' => 'msgok',
-         ]);
-
-
-
+        ]);
     }
-
-
 }
